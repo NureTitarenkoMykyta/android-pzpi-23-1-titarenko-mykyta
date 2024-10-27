@@ -1,1 +1,243 @@
+Міністерство освіти і науки України
+
+
+
+Харківський національний університет радіоелектроніки
+
+
+
+
+
+
+
+Кафедра програмної інженерії
+
+
+
+
+Звіт
+з лабораторної роботи №3
+з дисципліни «Програмування під Android»
+
+
+
+
+
+
+   Виконав:                                                                             Перевірили:
+   ст. гр. ПЗПІ-23-1                                                                Сокорчук Ігор
+   Тітаренко Микита                                                              Петрович
+
+
+
+
+
+
+
+
+
+
+
+Харків 2024
+ЗАВДАННЯ
+
+Розробити калькулятор на 4 базові арифметичні операції з кнопками для введення аргументів і дій.
+Калькулятор повинен мати адаптивний користувацький інтерфейс у різних орієнтаціях екрану та на екранах різної роздільної здатності.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ХІД РОБОТИ
+
+1.	Розмітка застосунку
+1.1.	Використаємо розмітку TableLayout для розташування кнопок у вишляді таблиці. Задамо кількість колонок, як stretchColumns="4".
+1.2.	Створимо шість рядів: в першому буде розміщуватися TextView, де буде результат введення. В другому ряді буде 3 кнопки, в усіх інших 4.
+1.3.	Задамо текст та id для кожної кнопки, який відображає її значення.
+1.4.	Задамо layout_weight="1", щоб кнопки займали рівномірно весь простір.
+1.5.	Так як кнопка AC, яка розміщена у другому ряді, повинна займати місце відразу двох кнопок, пропишемо android:layout_width="0dp" і android:layout_weight="2".
+1.6.	Створемо окрему розмітку для горизонтальної орієнтації: вона виглядає майже так само, але містить 5 рядів і 5 колонок.
+Фрагмент коду, де реалізоване розміщення кнопок у горизонтальній розмітці.
+<TableRow android:layout_weight="1">
+    <TextView android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="48sp"
+        android:id="@+id/result"
+        android:text=""
+        android:gravity="right"
+        />
+</TableRow>
+
+<TableRow android:layout_weight="1">
+    <Button android:text="7"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:id="@+id/seven"
+        />
+
+    <Button android:text="8"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:id="@+id/eigth"
+        />
+
+    <Button android:text="9"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:id="@+id/nine"
+        />
+
+    <Button android:text="AC"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:id="@+id/AC"
+        app:backgroundTint="@color/airForceBlue"
+        />
+</TableRow>
+2.	Створення логіки для калькулятора
+2.1.	Оголошуємо всі змінні, які будуть брати участь в реалізації логіки обчислення.
+2.2.	Отримуємо екземпляри усіх кнопок текстового поля. Групуємо кнопки у вигляді чисел і операцій. 
+2.3.	Перевизначаємо метод onClick для числових кнопок. Перевіряємо валідність введення і додаємо текст кнопки до змінної currentNumber. Додаємо число до текстового поля result.
+2.4.	Перевизначаємо метод onClick для кнопок арифметичних операцій. Перевіряємо валідність введення і додаємо текст кнопки до листу operations. Додаємо операцію до текстового поля result.
+2.5.	Перевизначаємо метод onClick для кнопки дорінює. Перевіряємо валідність введення і реалізуємо метод Calculate, який, використовуючи листи numbers і operations, присвоює результат до змінної resultValue.
+2.6.	Перевизначаємо метод onClick для кнопок AC і Del. Перевіряємо валідність введення і реалізуємо логіку видалення окремого знаку або всього виразу. Для видалення всього виразу реалізований метод AllClear.
+2.7.	Перевизначаємо методи onSaveInstanceState і onRestoreInstanceState для збереження даних при зупиненні Activity, а саме зберігаємо та відновлюємо усі потрібні змінні.
+Реалізація onSaveInstanceState і onRestoreInstanceState.
+@Override
+public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    String savedResult = result.getText().toString();
+    outState.putString("savedResult", savedResult);
+    outState.putString("currentNumber" , currentNumber);
+    outState.putSerializable("operations", new ArrayList<>(operations));
+    outState.putSerializable("numbers", new ArrayList<>(numbers));
+    outState.putBoolean("resultGet", resultGet);
+    outState.putDouble("resultValue", resultValue);
+}
+
+@Override
+protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    result.setText(savedInstanceState.getString("savedResult"));
+    numbers = (ArrayList<Number>) savedInstanceState.getSerializable("numbers");
+    operations = (ArrayList<String>) savedInstanceState.getSerializable("operations");
+    resultGet = savedInstanceState.getBoolean("resultGet");
+    resultValue = savedInstanceState.getDouble("resultValue");
+    currentNumber = savedInstanceState.getString("currentNumber");
+}
+
+Метод Calculate для обчислення виразу.
+public void Calculate(int i){
+
+    double firstOperand = (double) numbers.get(i);
+        numbers.remove(i);
+    double secondOperand = (double) numbers.get(i);
+        numbers.remove(i);
+        if (operations.get(i).equals("*")) {
+            resultValue = firstOperand * secondOperand;
+        } else if (operations.get(i).equals("/")){
+            resultValue = firstOperand / secondOperand;
+        } else if (operations.get(i).equals("+")) {
+            resultValue = firstOperand + secondOperand;
+        } else if (operations.get(i).equals("-")){
+            resultValue = firstOperand - secondOperand;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+        resultValue = Double.parseDouble(decimalFormat.format(resultValue));
+        operations.remove(i);
+        numbers.add(i, resultValue);
+}
+
+
+
+
+
+
+
+
+ВИСНОВОК
+
+	Отже, виконавши лабораторну роботу №3, я навчився створювати калькулятор, використовуючи TableLayout і різні елементи інтерфейсу. Також, я більше дізнався про методи onSaveInstanceState і onRestoreInstanceState і реалізував логіку для обислення арифметичних операцій. Посилання на відеозвіт: https://youtu.be/HRMczmY818g.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ВИКОРИСТАНІ ДЖЕРЕЛА
+
+1.	Android Studio TableLayout / Android Studio / Develop / Android Develops. URL: 
+https://developer.android.com/reference/android/widget/TableLayout (дата звернення: 27.10.2024).
+2.	Android Studio saving-states / Android Studio / Develop / Android Develops. URL: 
+https://developer.android.com/topic/libraries/architecture/saving-states (дата звернення: 26.10.2024).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ДОДАТОК А
+Код програми
+Увесь код програми можно знайти за посиланням у GitHub:
+https://github.com/NureTitarenkoMykyta/android-pzpi-23-1-titarenko-mykyta/tree/main/LabTask3/android-pzpi-23-1-Titarenko-Mykyta-lab-task3
 
