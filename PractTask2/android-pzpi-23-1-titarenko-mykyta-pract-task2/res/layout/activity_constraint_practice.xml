@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_constraint_practice">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="-133dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Микита"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/imageView1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="fill"
+                android:text="Vestibulum suscipit nec neque eget ullamcorper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis dignissim, ipsum id blandit viverra, enim augue vulputate lacus, in pretium purus est eu turpis. Integer auctor turpis in magna posuere, posuere viverra urna interdum. Mauris id rutrum lectus. In hac habitasse platea dictumst. Aenean mattis arcu eu eros posuere, vitae suscipit velit dignissim. Cras dolor orci, feugiat quis turpis vel, malesuada sodales risus. Cras sit amet pharetra tellus. Phasellus quis velit quis velit vestibulum malesuada quis non tortor."
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button9"
+                android:textColor="@color/design_default_color_secondary_variant"/>
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_person_foreground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Button"
+                app:layout_constraintBaseline_toBaselineOf="@+id/button9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button9" />
+
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Button"
+                app:layout_constraintEnd_toStartOf="@+id/button8"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imageView1"
+                app:layout_constraintTop_toBottomOf="@+id/button10" />
+
+            <Button
+                android:id="@+id/button10"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|start"
+                android:onClick="onButtonClick"
+                android:text="Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
