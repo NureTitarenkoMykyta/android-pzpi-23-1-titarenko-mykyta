@@ -1,1 +1,276 @@
+Міністерство освіти і науки України
+
+
+
+Харківський національний університет радіоелектроніки
+
+
+
+
+
+Кафедра програмування під Android
+
+
+Звіт
+з практичної роботи №4
+з дисципліни «Програмування під Android»
+
+
+
+
+   Виконав:                                                                             Перевірили:
+   ст. гр. ПЗПІ-23-1                                                                Сокорчук Ігор
+   Тітаренко Микита                                                              Петрович
+
+
+
+
+
+
+Харків 2024
+ЗАВДАННЯ
+
+1.	Практика з SharedPreferences.
+2.	Ознайомлення з SQLite.
+3.	Робота з файлами.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ХІД РОБОТИ
+
+1.	Практика з SharedPreferences
+1.1.	Створимо розмітку для введення ім’я і віку.
+1.2.	Використаємо об’єкт SharedPreferences для запису і отримання значень
+Реалізація використання SharedPreferences:
+chooseButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", editTextName.getText().toString());
+        editor.putInt("age", Integer.parseInt(editTextAge.getText().toString()));
+        editor.apply();
+    }
+});
+
+String name = sharedPreferences.getString("name", "default_value");
+
+if (!name.equals("default_value")){
+    editTextName.setText(name);
+}
+
+int age = sharedPreferences.getInt("age", 0);
+
+if (age != 0){
+    editTextAge.setText(String.valueOf(age));
+}
+2.	Ознайомлення з SQLite
+2.1.	Створимо клас DBHelper, який наслідує клас SQLiteOpenHelper.
+2.2.	Реалізуємо у цьому класі конструктор і перевизначимо основні методи: onCreate, onInsert.
+2.3.	Додамо методи getAllUsers і deleteAllUsers.
+Реалізація класу DBHelper:
+public class DBHelper extends SQLiteOpenHelper {
+    public DBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    public long onInsert(String name, int age){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("age", age);
+        return  db.insert("users", null, values);
+    }
+
+    public Cursor getAllUsers(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query("users", null, null, null, null, null, null);
+    }
+
+    public void deleteAllUsers(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("users", null, null);
+    }
+}
+
+2.4.	Реалізуємо логіку відображення бази даних за допомогою метода UpdateList().
+Реалізація UpdateList:
+public void UpdateList(){
+    String list = "";
+    Cursor cursor = db.getAllUsers();
+    while (cursor.moveToNext()){
+        @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
+        @SuppressLint("Range") int age = cursor.getInt(cursor.getColumnIndex("age"));
+        list = list + "Name: " + name + " Age: " + age + "\n";
+    }
+    cursor.close();
+    listItems.setText(list);
+}
+
+3.	Робота з файлами.
+3.1.	Отримуємо доступ до нашого файлу використовуючи openFileInput.
+3.2.	Викликаємо в циклі read для зчитування файлу.
+3.3.	Викликаємо write для запису у текстовий файл.
+Реалізація зчитування та запису у текстовий файл:
+readButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput("myfile.txt");
+            int c;
+            String temp = "";
+            while( (c = fis.read()) != -1) {
+                temp = temp + Character.toString((char)c);
+            }
+            fis.close();
+            editText.setText(temp);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+});
+writeButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput("myfile.txt", Context.MODE_PRIVATE);
+            fos.write(editText.getText().toString().getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ВИСНОВОК
+
+	Отже, виконавши практичну роботу №4, я ознайомився із способом зберігання даних за допомогою SharedPreferences.  Навчився створювати бази даних для збереження інформації. Також, ознайомився із записуванням і зчитуванням інформації з текстових файлів. Посилання на відеозвіт: https://youtu.be/_1uPdVZx4mw.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ВИКОРИСТАНІ ДЖЕРЕЛА
+
+1.	SharedPreferences/ Reference / Develop / Android Develops. URL: 
+ https://developer.android.com/reference/android/content/SharedPreferences (дата звернення: 04.11.2024).
+2.	Save data using SQLite / Guides / Develop / Android Developers. URL: 
+https://developer.android.com/training/data-storage/sqlite (дата звернення: 04.11.2024).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ДОДАТОК А
+
+Код програми
+Увесь код програми можно знайти за посиланням у GitHub:
+https://github.com/NureTitarenkoMykyta/android-pzpi-23-1-titarenko-mykyta/tree/main/PractTask4/android-pzpi-23-1-titarenko-mykyta-pract-task4
 
