@@ -258,9 +258,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
 ВИКОРИСТАНІ ДЖЕРЕЛА
 
-1.	Views / UI / Core areas / Develop / Android Develops. URL: 
+1.	Dialogs / Views / UI / Core areas / Develop / Android Develops. URL: 
  https://developer.android.com/develop/ui/views/components/dialogs (дата звернення: 03.11.2024).
-2.	Android Activity lifecycle / Android Tutorial/ JavaPoint. URL: 
+2.	RecyclerView.Adapter / Reference / Develop / Android Develops. URL: 
 https://developer.android.com/reference/androidx/recyclerview/widget/RecyclerView.Adapter (дата звернення: 03.11.2024).
 
 
@@ -289,4 +289,3 @@ https://developer.android.com/reference/androidx/recyclerview/widget/RecyclerVie
 Код програми
 Увесь код програми можно знайти за посиланням у GitHub:
 https://github.com/NureTitarenkoMykyta/android-pzpi-23-1-titarenko-mykyta/tree/main/PractTask3/android-pzpi-23-1-titarenko-mykyta-pract-task3
-
