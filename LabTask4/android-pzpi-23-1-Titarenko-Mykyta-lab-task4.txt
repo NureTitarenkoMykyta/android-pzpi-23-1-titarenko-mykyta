@@ -1,1 +1,276 @@
+Міністерство освіти і науки України
+
+
+
+Харківський національний університет радіоелектроніки
+
+
+
+
+
+
+
+Кафедра програмної інженерії
+
+
+
+
+Звіт
+з лабораторної роботи №4
+з дисципліни «Програмування під Android»
+
+
+
+
+
+
+   Виконав:                                                                             Перевірили:
+   ст. гр. ПЗПІ-23-1                                                                Сокорчук Ігор
+   Тітаренко Микита                                                              Петрович
+
+
+
+
+
+
+
+
+
+
+
+Харків 2024
+ЗАВДАННЯ
+
+Розробити застосунок для ведення нотаток.
+Застосунок повинен дозволяти переглядати список нотаток, створювати нову нотатку, редагувати нотатку та видаляти нотатку. Кожна нотатка повинна мати назву, опис, важливість (три класи), час і дату призначення і картинку (вибирається з галереї).
+У списку нотатки відображаються з іконкою з галереї і часом створення (праворуч зверху більш дрібним шрифтом), а також графічним відображенням класу важливості (іконка з множини).
+Потрібно реалізувати функції додавання, видалення, редагування (без збереження між перезапуск додатку) нотаток.
+Видалення/редагування викликаються з контекстного меню при довгому натисненні, додавання - з основного меню в ActionBar. У ActionBar реалізувати пошук / фільтрація заміток за змістом тексту, а також фільтрацію за важливістю. Текстові елементи користувацького інтерфейсу повинні бути локалізовані українською та англійською мовами.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ХІД РОБОТИ
+
+1.	Створення головної розмітки
+1.1.	Використаємо ActionBar (Toolbar) для розміщення елементів інтерфейсу для взаємодії.
+1.2.	Використаємо елемент інтерфейсу SearchView для пошуку заміток.
+1.3.	Використаємо Spinner для обрання рівня важливості замітки.
+1.4.	Використаємо RecyclerView для відображення списку заміток.
+Фрагмент коду для реалізація головної розмітки:
+18. <LinearLayout
+19.     android:layout_width="match_parent"
+20.     android:layout_height="wrap_content">
+21.     <TextView
+22.         android:layout_width="0dp"
+23.         android:layout_height="wrap_content"
+24.         android:text="@string/notes"
+25.         android:textColor="@color/white"
+26.         android:textSize="20dp"
+27.         android:layout_gravity="center"
+28.         android:layout_weight="2" />
+29. 
+30.     <androidx.appcompat.widget.SearchView
+31.         android:id="@+id/noteSearchView"
+32.         android:layout_width="0dp"
+33.         android:layout_height="match_parent"
+34.         android:layout_weight="4"
+35.         app:queryHint="@string/search"/>
+36. 
+37.     <Spinner
+38.         android:id="@+id/importanceFilter"
+39.         android:layout_width="0dp"
+40.         android:layout_height="wrap_content"
+41.         android:layout_weight="3"
+42.         android:layout_gravity="center"/>
+43. 
+44.     <Button
+45.         android:id="@+id/newNoteButton"
+46.         android:layout_width="0dp"
+47.         android:layout_height="wrap_content"
+48.         android:layout_weight="2"
+49.         android:backgroundTint="@color/orange"
+50.         android:layout_gravity="center"
+51.         android:text="+"/>
+52. </LinearLayout>
+2.	Відображення заміток у RecyclerView
+2.1.	Створимо клас Note, який буде містити всю інформацію про замітку.
+2.2.	Створимо розмітку note_item, яка відображає один запис у списку.
+2.3.	Створимо NoteAdapter, який буде наслідувати клас RecyclerView.Adapter<NoteAdapter.NoteViewHolder>.
+2.4.	Перевизначимо метод onCreateViewHolder для отримання потрібної розмітки через LayoutInflater.
+2.5.	Перевизначимо метод onBindViewHolder для прив'язки даних до елементів розмітки.
+2.6.	Для holder.itemView перевизначимо події setOnClickListener і setOnCreateContextMenuListener для відображення запису і створення контекстного меню для редагування і видалення.
+Фрагмент коду для реалізації методу onBindViewHolder для NoteAdapter:
+34. @Override
+35. public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
+36.     Note note = notes.get(position);
+37.     holder.titleTextView.setText(note.getTitle());
+38.     holder.descriptionTextView.setText(note.getDescription());
+39.     byte[] imageBytes = StandartIconCheck(note.getImageData(), context);
+40.     holder.iconImageView.setImageBitmap(BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length));
+41.     int importance = note.getImportance();
+42.     int imageSRC;
+43.     if (importance == 0){
+44.         imageSRC = R.drawable.not_important_icon;
+45.     } else if (importance == 1){
+46.         imageSRC = R.drawable.important_icon;
+47.     } else {
+48.         imageSRC = R.drawable.very_important_icon;
+49.     }
+50.     holder.importanceImageView.setImageResource(imageSRC);
+51.     holder.creationDateTextView.setText(note.getCreationDate());
+52. 
+53.     holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+54.         @Override
+55.         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+56.             menu.add(0, R.id.edit, 0, R.string.edit);
+57.             menu.add(1, R.id.delete, 0, R.string.delete);
+58.             currentIndex = position;
+59.         }
+60.     });
+61. 
+62.     holder.itemView.setOnClickListener(new View.OnClickListener() {
+63.         @Override
+64.         public void onClick(View v) {
+65.             Intent intent = new Intent(context, CreateAndEditNoteActivity.class);
+66.             intent.putExtra("view", true);
+67.             intent.putExtra("index", position);
+68.             context.startActivity(intent);
+69.         }
+70.     });
+71. }
+3.	Створення, редагування і перегляд розмітки
+3.1.	Реалізуємо розмітку activity_create_and_edit_note для створення, перегляду і редагування розмітки.
+3.2.	Через текстові поля створимо діалогові вікна для обрання дати і часу.
+3.3.	Створимо перевірку, щоб при створенні або редагуванні запис його назва не була пустою.
+3.4.	Реалізуємо обрання зображення через new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).
+Фрагмент коду для створення або редагування запису:
+120. createOrEditButton.setOnClickListener(new View.OnClickListener() {
+121.     @Override
+122.     public void onClick(View v) {
+123.         if (titleEditTextButton.getText().toString().isEmpty()){
+124.             AlertDialog.Builder builder = new AlertDialog.Builder(CreateAndEditNoteActivity.this);
+125.             builder.setTitle(R.string.incorrectInput);
+126.             builder.setMessage(R.string.noTitle);
+127.             builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+128.                 @Override
+129.                 public void onClick(DialogInterface dialog, int which) {
+130. 
+131.                 }
+132.             });
+133.             builder.create().show();
+134.             return;
+135.         }
+136. 
+137.         if (getIntent().getBooleanExtra("edit", false)){
+138.             Note note = notes.get(getIntent().getIntExtra("index", 0));
+139.             Notes.EditNote( note.getNumber(),
+140.                     titleEditTextButton.getText().toString(),
+141.                     descriptionEditTextButton.getText().toString(),
+142.                     importanceSpinner.getSelectedItemPosition(),
+143.                     editTextDate.getText().toString(),
+144.                     editTextTime.getText().toString(),
+145.                     note.getCreationDate(),
+146.                     imageBytes);
+147.         } else {
+148.             Notes.AddNote(titleEditTextButton.getText().toString(),
+149.                     descriptionEditTextButton.getText().toString(),
+150.                     importanceSpinner.getSelectedItemPosition(),
+151.                     editTextDate.getText().toString(),
+152.                     editTextTime.getText().toString(),
+153.                     dayOfMonth + "." + month + "." + year,
+154.                     imageBytes);
+155.         }
+156.         setResult(RESULT_OK);
+157.         finish();
+158.     }
+159. });
+4.	Реалізація класу DBHelper
+4.1.	Створимо клас  DBHelper, який наслідує SQLiteOpenHelper.
+4.2.	Перевизначимо метод onCreate для створення нової БД.
+4.3.	Створимо методи для додавання, редагування і вилучення запису з бази даних.
+4.4.	Створимо метод для фільтрації записів.
+5.	ImportanceAdapter
+5.1.	Реалізуємо клас ImportantItem, який містить в собі назву і зображення важливості.
+5.2.	Для відображення важливості запису створимо розмітку spinner_item.
+5.3.	Реалізуємо клас ImportanceAdapter, який наслідує ArrayAdapter<ImportanceItem>, а саме перевизначимо методи getView і getDropDownView.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ВИСНОВОК
+
+	Отже, виконавши лабораторну роботу №4, я навчився реалізовувати повноцінний застосунок для введення записів. Я навчився використовувати різні елементи інтерфейсу, такі як SearchView, Spinner і RecyclerView, налаштовувати їхні адаптери для відображення даних в інтерфейсі.  Також, навчився створювати різні діалогові вікна і передавати значення через Intent. Посилання на відеозвіт: https://youtu.be/5yuDsH8tbl0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ВИКОРИСТАНІ ДЖЕРЕЛА
+
+1.	String resources / Guides / Develop / Android Develops. URL: 
+https://developer.android.com/guide/topics/resources/string-resource (дата звернення: 09.11.2024).
+2.	Android Studio saving-states / Android Studio / Develop / Android Develops. URL: 
+https://developer.android.com/topic/libraries/architecture/saving-states (дата звернення: 09.11.2024).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ДОДАТОК А
+Код програми
+Увесь код програми можно знайти за посиланням у GitHub:
+https://github.com/NureTitarenkoMykyta/android-pzpi-23-1-titarenko-mykyta/tree/main/LabTask4/android-pzpi-23-1-Titarenko-Mykyta-lab-task4
 
