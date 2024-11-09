@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">LabTask4</string>
+    <string name="description">Description</string>
+    <string name="name">Name</string>
+    <string name="chooseImageButton">Choose image</string>
+    <string name="createOrEditButton">Create note</string>
+    <string name="back">Back</string>
+    <string name="lowImportance">Low importance</string>
+    <string name="mediumImportance">Medium importance</string>
+    <string name="highImportance">High importance</string>
+    <string name="notes">Notes</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="deleteNote">Delete note</string>
+    <string name="deleteConfirmation">Are you sure you want to delete note?</string>
+    <string name="search">Search</string>
+    <string name="all">All</string>
+    <string name="incorrectInput">Incorrect input</string>
+    <string name="noTitle">Notes must have a title</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>
