@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/ThemeOverlay.LabTask5.FullscreenContainer"
+    tools:context=".activity_create_and_edit_noteFragment">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="@string/name"
+            android:layout_weight="1"
+            android:layout_margin="10dp"/>
+
+        <EditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="@string/description"
+            android:layout_weight="3"
+            android:layout_margin="10dp"/>
+
+        <Spinner
+            android:id="@+id/importanceSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="10dp"/>
+
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:hint="Дата події"/>
+
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="time"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:hint="Час події"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+            <Button
+                android:id="@+id/chooseImageButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/chooseImageButton"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                />
+
+            <ImageView
+                android:id="@+id/iconImageView"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:src="@drawable/gallery_icon"
+                android:layout_weight="2"/>
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/createOrEditButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/createOrEditButton"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_button"
+            />
+
+        <Button
+            android:id="@+id/cancleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_button"/>
+
+    </LinearLayout>
+
+
+</FrameLayout>

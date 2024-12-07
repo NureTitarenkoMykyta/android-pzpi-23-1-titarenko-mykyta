@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#908987</color>
+    <color name="blueButton">#77b2d0</color>
+    <color name="blueText">#1f71a9</color>
+    <color name="blueBackground">#def1fd</color>
+    <color name="blueToolBar">#b8beca</color>
+
+    <color name="brownButton">#c8a27e</color>
+    <color name="brownText">#4e3b31</color>
+    <color name="brownBackground">#eee1d3</color>
+    <color name="brownToolBar">#a84924</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
+</resources>

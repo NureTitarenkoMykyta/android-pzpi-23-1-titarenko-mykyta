@@ -1,0 +1,86 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.LabTask4" parent="Theme.Material3.DayNight.NoActionBar">
+
+    </style>
+
+    <style name="Theme.LabTask4" parent="Base.Theme.LabTask4">
+
+    </style>
+
+    <style name="smallFontSize" parent="Base.Theme.LabTask4">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="mediumFontSize" parent="Base.Theme.LabTask4">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="largeFontSize" parent="Base.Theme.LabTask4">
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="blueStyle" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="editTextStyle">@style/EditTextStyleForBlueStyle</item>
+        <item name="android:buttonStyle">@style/ButtonStyleForBlueStyle</item>
+        <item name="android:textViewStyle">@style/TextViewStyleForBlueStyle</item>
+        <item name="toolbarStyle">@style/CustomToolbarForBlueStyle</item>
+    </style>
+
+    <style name="ButtonStyleForBlueStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/blueButton</item>
+        <item name="android:textColor">@color/blueText</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:fontFamily">@font/blue_font_family</item>
+    </style>
+
+    <style name="EditTextStyleForBlueStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/blueText</item>
+        <item name="android:textColorHint">@color/blueText</item>
+        <item name="android:fontFamily">@font/blue_font_family</item>
+    </style>
+
+    <style name="TextViewStyleForBlueStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/blueText</item>
+        <item name="fontFamily">@font/blue_font_family</item>
+    </style>
+
+    <style name="CustomToolbarForBlueStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/blueToolBar</item>
+    </style>
+
+
+    <style name="brownStyle" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="editTextStyle">@style/EditTextStyleForBrownStyle</item>
+        <item name="android:buttonStyle">@style/ButtonStyleForBrownStyle</item>
+        <item name="android:textViewStyle">@style/TextViewStyleForBrownStyle</item>
+        <item name="toolbarStyle">@style/CustomToolbarBrownStyle</item>
+    </style>
+
+    <style name="ButtonStyleForBrownStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/brownButton</item>
+        <item name="android:textColor">@color/brownText</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:fontFamily">@font/dart_font_family</item>
+    </style>
+
+    <style name="EditTextStyleForBrownStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/brownText</item>
+        <item name="android:textColorHint">@color/brownText</item>
+        <item name="android:fontFamily">@font/dart_font_family</item>
+    </style>
+
+    <style name="TextViewStyleForBrownStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/brownText</item>
+        <item name="fontFamily">@font/dart_font_family</item>
+    </style>
+
+    <style name="CustomToolbarBrownStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/brownToolBar</item>
+    </style>
+
+    <style name="ThemeOverlay.LabTask5.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+</resources>

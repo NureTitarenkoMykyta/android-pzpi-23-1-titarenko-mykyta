@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/notes"
+                android:layout_gravity="center"
+                android:layout_weight="2" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/noteSearchView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                app:queryHint="@string/search"/>
+
+            <Spinner
+                android:id="@+id/importanceFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/newNoteButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:text="+"
+                android:background="@drawable/rounded_button"/>
+
+            <ImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="0dp"
+                android:background="@drawable/rounded_button"
+                android:layout_weight="2"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/gray"
+                android:layout_gravity="center"
+                android:src="@drawable/settings_icon"
+                android:scaleType="fitCenter"
+                android:layout_margin="10dp"
+                android:padding="10dp"/>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/notesRecycleView"/>
+</LinearLayout>

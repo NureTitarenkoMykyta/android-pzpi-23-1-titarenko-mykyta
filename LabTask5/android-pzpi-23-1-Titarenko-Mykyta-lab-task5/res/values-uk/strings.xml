@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Лабораторна робота 4</string>
+    <string name="description">Опис</string>
+    <string name="name">Назва</string>
+    <string name="chooseImageButton">Обрати зображення</string>
+    <string name="createOrEditButton">Створити замітку</string>
+    <string name="back">Назад</string>
+    <string name="lowImportance">Низька важливість</string>
+    <string name="mediumImportance">Середня важливість</string>
+    <string name="highImportance">Висока важливість</string>
+    <string name="notes">Замітки</string>
+    <string name="edit">Змінити</string>
+    <string name="delete">Видалити</string>
+    <string name="deleteNote">Видалення замітки</string>
+    <string name="deleteConfirmation">Ви впевнені, що хочете видалити запис</string>
+    <string name="search">Пошук</string>
+    <string name="all">Всі</string>
+    <string name="incorrectInput">Неправильний ввід</string>
+    <string name="noTitle">У замітки обов\'язково повинна бути назва</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+</resources>
